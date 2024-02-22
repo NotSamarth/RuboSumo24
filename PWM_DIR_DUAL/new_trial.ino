@@ -74,10 +74,17 @@ void loop() {
         Serial.println("Rotate");
 
   }
-  if( (x > thresholdx || (-thresholdx) > x)  && (( y > thresholdy || (-thresholdy) > y))){
-    motorLeft.setSpeed(y);
-    motorRight.setSpeed(y);
-        Serial.println("Diagonal");
+  if( (x > thresholdx || (-thresholdx) > x)  && (( y > thresholdy ))){
+    motorLeft.setSpeed(y+x);
+    motorRight.setSpeed(y-x);
+        Serial.println("Diagonal Ahead");
+
+  }
+
+  if( (x > thresholdx || (-thresholdx) > x)  && (( y < (-thresholdy) ))){
+    motorLeft.setSpeed(y-x);
+    motorRight.setSpeed(y+x);
+        Serial.println("Diagonal Behind");
 
   }
     
