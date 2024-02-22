@@ -35,8 +35,8 @@
 #define RIGHT_MOTOR_DIR 6
 
 // Define joystick pins
-#define JOYSTICK_X A0
-#define JOYSTICK_Y A1
+#define JOYSTICK_X A7
+#define JOYSTICK_Y A8
 
 #define thresholdx 30
 #define thresholdy 30
@@ -55,31 +55,31 @@ void setup() {
 
 void loop() {
   // Read joystick values
-  int x = (analogRead(JOYSTICK_X))/4;
-  int y = (analogRead(JOYSTICK_Y))/4;
+  int x = analogRead(JOYSTICK_X);
+  int y = analogRead(JOYSTICK_Y);
+  x = map(val, 0, 1023, -255, 255);
+  y = map(val, 0, 1023, -255, 255);
+  Serial.print(x);
+  Serial.print("  "); 
+  Serial.print(y);
  
-  if( (-(thresholdy)) > y > thresholdy  && (-(thresholdstr)) < x < thresholdstr){
+   if( y > thresholdy || (-thresholdy) > y ){    
     motorLeft.setSpeed(y);
     motorRight.setSpeed(y);
+    Serial.println("C1");
   }
-  
-  else if( (-(thresholdx)) > x > thresholdx && y > thresholdy ){
-    motorLeft.setSpeed((y + x));
-    motorRight.setSpeed(y - x);
+  if( x > thresholdx || (-thresholdx) > x){
+    motorLeft.setSpeed((x));
+    motorRight.setSpeed(x);
+        Serial.println("C2");
 
   }
-
-  else if( (-(thresholdx)) > x > thresholdx && y < (-(thresholdy)) ){
-    motorLeft.setSpeed((y - x));
-    motorRight.setSpeed(y + x);
-
-  }
-  
-  else{
+    
+  if(x <thresholdx && (-thresholdx) < x && y <thresholdx && (-thresholdx) < y){
     motorLeft.setSpeed(0);
     motorRight.setSpeed(0);
-
-  }
+    Serial.println("C3");
+    }
 
 
 }
